@@ -1,0 +1,20 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [{
+		"Action": [
+			"ecr:BatchCheckLayerAvailability",
+			"ecr:BatchGetImage",
+			"ecr:GetAuthorizationToken",
+			"ecr:GetDownloadUrlForLayer",
+			"ecr:GetLifecyclePolicyPreview",
+			"secretsmanager:GetSecretValue",
+			"lambda:GetLayerVersion",
+			"ssm:GetParameter",
+			"securityhub:BatchImportFindings",
+			"kms:Decrypt",
+			"lambda:GetFunction"
+		],
+		"Effect": "Allow",
+		"Resource": "*"
+	}]
+}

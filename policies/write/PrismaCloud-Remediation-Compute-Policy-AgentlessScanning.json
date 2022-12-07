@@ -1,0 +1,82 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "PCCAgentlessRM",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DeleteSnapshot",
+          "ec2:ModifySnapshotAttribute",
+          "ec2:TerminateInstances"
+        ],
+        "Resource": "*",
+        "Condition": {
+          "StringEquals": {
+            "ec2:ResourceTag/created-by": "prismacloud-agentless-scan"
+          }
+        }
+      },
+      {
+        "Sid": "PCCAgentlessServiceLinkedRole",
+        "Effect": "Allow",
+        "Action": "iam:CreateServiceLinkedRole",
+        "Resource": "arn:aws:iam::*:role/aws-service-role/spot.amazonaws.com/*",
+        "Condition": {"StringLike": {"iam:AWSServiceName": "spot.amazonaws.com"}}
+      },
+      {
+        "Sid": "PCCAgentlessTags",
+        "Effect": "Allow",
+        "Action": "ec2:CreateTags",
+        "Resource": [
+          "arn:aws:ec2:*::snapshot/*",
+          "arn:aws:ec2:*:*:instance/*",
+          "arn:aws:ec2:*:*:volume/*"
+
+        ],
+        "Condition": {
+          "StringEquals": {
+           "aws:RequestTag/created-by": "prismacloud-agentless-scan"
+          }
+        }
+      },
+      {
+        "Sid": "PCCAgentlessRW",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:CreateSnapshots",
+          "ec2:CreateSnapshot",
+          "ec2:RunInstances"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "PCCAgentlessSTS",
+        "Effect": "Allow",
+        "Action": [
+          "sts:DecodeAuthorizationMessage",
+          "sts:GetCallerIdentity"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "PCCAgentlessKMS",
+        "Effect": "Allow",
+        "Action": [
+          "kms:Decrypt",
+          "kms:GenerateDataKeyWithoutPlaintext",
+          "kms:ReEncryptFrom",
+          "kms:Encrypt",
+          "kms:ReEncryptTo",
+          "kms:CreateGrant"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "PCCAgentlessSSM",
+        "Effect": "Allow",
+        "Action": "ssm:GetParameters",
+        "Resource": "*"
+      }
+
+    ]
+}

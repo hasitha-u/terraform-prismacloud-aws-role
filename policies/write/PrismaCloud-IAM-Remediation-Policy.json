@@ -1,0 +1,35 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+          "iam:UpdateAccountPasswordPolicy",
+          "ec2:ModifyImageAttribute",
+          "rds:ModifyDBSnapshotAttribute",
+          "s3:PutBucketAcl",
+          "ec2:RevokeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:ModifySnapshotAttribute",
+          "cloudtrail:UpdateTrail",
+          "rds:ModifyDBInstance",
+          "redshift:ModifyCluster",
+          "kms:EnableKeyRotation",
+          "rds:ModifyEventSubscription",
+          "eks:UpdateClusterConfig",
+          "ec2:ModifySubnetAttribute",
+          "elasticloadbalancing:ModifyLoadBalancerAttributes",
+          "cloudtrail:StartLogging",
+          "elasticache:ModifyReplicationGroup",
+          "s3:PutBucketVersioning",
+          "s3:PutBucketPublicAccessBlock",
+          "lambda:UpdateFunctionConfiguration",
+          "ecs:UpdateClusterSettings",
+          "rds:ModifyDBCluster",
+          "rds:ModifyDBClusterSnapshotAttribute",
+          "acm:UpdateCertificateOptions"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+      }
+    ]
+}

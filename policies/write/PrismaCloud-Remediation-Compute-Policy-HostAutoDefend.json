@@ -1,0 +1,15 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+          "ssm:SendCommand",
+          "ssm:ListCommandInvocations",
+          "ssm:CancelCommand",
+          "ssm:CreateAssociation"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+      }
+    ]
+}
