@@ -9,7 +9,6 @@ locals {
 }
 
 resource "aws_iam_role" "this" {
-  provider           = aws.account
   name               = var.protection_mode == "" ? "${local.role_prefix}ReadWriteRole" : "${local.role_prefix}ReadOnlyRole"
   assume_role_policy = <<EOF
 {
@@ -38,7 +37,6 @@ EOF
 resource "aws_iam_policy" "readonly" {
   for_each = { for path in fileset(path.module, "policies/read/*.json") : split(".", basename(path))[0] => path }
 
-  provider    = aws.account
   name        = split(".", basename(each.value))[0]
   path        = "/"
   description = split(".", basename(each.value))[0]
@@ -48,7 +46,6 @@ resource "aws_iam_policy" "readonly" {
 resource "aws_iam_role_policy_attachment" "readonly" {
   for_each = aws_iam_policy.readonly
 
-  provider   = aws.account
   role       = aws_iam_role.this.name
   policy_arn = each.value.arn
 }
@@ -56,7 +53,6 @@ resource "aws_iam_role_policy_attachment" "readonly" {
 resource "aws_iam_policy" "readwrite" {
   for_each = var.protection_mode == "MONITOR_AND_PROTECT" ? { for path in fileset(path.module, "policies/write/*.json") : split(".", basename(path))[0] => path } : {}
 
-  provider    = aws.account
   name        = split(".", basename(each.value))[0]
   path        = "/"
   description = split(".", basename(each.value))[0]
@@ -66,7 +62,6 @@ resource "aws_iam_policy" "readwrite" {
 resource "aws_iam_role_policy_attachment" "managed_policy" {
   for_each = { for arn in toset(local.managed_policy_arns) : "AWSManaged-${split("/", arn)[1]}" => arn }
 
-  provider   = aws.account
   role       = aws_iam_role.this.name
   policy_arn = each.value
 }
@@ -74,7 +69,6 @@ resource "aws_iam_role_policy_attachment" "managed_policy" {
 resource "aws_iam_role_policy_attachment" "readwrite" {
   for_each = aws_iam_policy.readwrite
 
-  provider   = aws.account
   role       = aws_iam_role.this.name
   policy_arn = each.value.arn
 }
