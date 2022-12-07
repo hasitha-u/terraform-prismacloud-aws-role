@@ -4,7 +4,16 @@ Terraform Module for Prisma Cloud AWS IAM role
 ## Usage
 
 ```hcl
-TODO
+module "pc_role" {
+  providers = {
+    aws = aws.target_account
+  }
+
+  source = "github.com/hasitha-u/terraform-prismacloud-aws-role"
+  account_type = "standard"
+  protection_mode = "MONITOR"
+  external_id = random_uuid.external_id.result
+}
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
