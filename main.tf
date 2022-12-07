@@ -9,7 +9,7 @@ locals {
 }
 
 resource "aws_iam_role" "this" {
-  name               = var.protection_mode == "" ? "${local.role_prefix}ReadWriteRole" : "${local.role_prefix}ReadOnlyRole"
+  name               = var.protection_mode == "MONITOR_AND_PROTECT" ? "${local.role_prefix}ReadWriteRole" : "${local.role_prefix}ReadOnlyRole"
   assume_role_policy = <<EOF
 {
 	"Version": "2012-10-17",
