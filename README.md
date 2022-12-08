@@ -22,13 +22,13 @@ module "pc_role" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0 |
 
 ## Modules
 
@@ -53,6 +53,7 @@ No modules.
 | <a name="input_external_id"></a> [external\_id](#input\_external\_id) | ExternalID for the IAM role | `string` | n/a | yes |
 | <a name="input_protection_mode"></a> [protection\_mode](#input\_protection\_mode) | Prisma Cloud Protection mode. (MONITOR\|MONITOR\_AND\_PROTECT) | `string` | `"MONITOR"` | no |
 | <a name="input_role_name_prefix"></a> [role\_name\_prefix](#input\_role\_name\_prefix) | Role name prefix | `string` | `""` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to resources | `map(string)` | `{}` | no |
 
 ## Outputs
 
