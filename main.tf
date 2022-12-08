@@ -46,13 +46,6 @@ resource "aws_iam_policy" "readonly" {
   tags        = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "readonly" {
-  for_each = aws_iam_policy.readonly
-
-  role       = aws_iam_role.this.name
-  policy_arn = each.value.arn
-}
-
 resource "aws_iam_policy" "readwrite" {
   for_each = var.protection_mode == "MONITOR_AND_PROTECT" ? { for path in fileset(path.module, "policies/write/*.json") : "${var.role_name_prefix}${split(".", basename(path))[0]}" => path } : {}
 
@@ -68,6 +61,13 @@ resource "aws_iam_role_policy_attachment" "managed_policy" {
 
   role       = aws_iam_role.this.name
   policy_arn = each.value
+}
+
+resource "aws_iam_role_policy_attachment" "readonly" {
+  for_each = aws_iam_policy.readonly
+
+  role       = aws_iam_role.this.name
+  policy_arn = each.value.arn
 }
 
 resource "aws_iam_role_policy_attachment" "readwrite" {
