@@ -32,15 +32,18 @@ resource "aws_iam_role" "this" {
 }
 EOF
 
+  tags = var.tags
+
 }
 
 resource "aws_iam_policy" "readonly" {
-  for_each = { for path in fileset(path.module, "policies/read/*.json") : split(".", basename(path))[0] => path }
+  for_each = { for path in fileset(path.module, "policies/read/*.json") : "${var.role_name_prefix}${split(".", basename(path))[0]}" => path }
 
-  name        = split(".", basename(each.value))[0]
+  name        = "${var.role_name_prefix}${split(".", basename(each.value))[0]}"
   path        = "/"
-  description = split(".", basename(each.value))[0]
+  description = "${var.role_name_prefix}${split(".", basename(each.value))[0]}"
   policy      = file("${path.module}/${each.value}")
+  tags        = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "readonly" {
@@ -51,12 +54,13 @@ resource "aws_iam_role_policy_attachment" "readonly" {
 }
 
 resource "aws_iam_policy" "readwrite" {
-  for_each = var.protection_mode == "MONITOR_AND_PROTECT" ? { for path in fileset(path.module, "policies/write/*.json") : split(".", basename(path))[0] => path } : {}
+  for_each = var.protection_mode == "MONITOR_AND_PROTECT" ? { for path in fileset(path.module, "policies/write/*.json") : "${var.role_name_prefix}${split(".", basename(path))[0]}" => path } : {}
 
-  name        = split(".", basename(each.value))[0]
+  name        = "${var.role_name_prefix}${split(".", basename(each.value))[0]}"
   path        = "/"
-  description = split(".", basename(each.value))[0]
+  description = "${var.role_name_prefix}${split(".", basename(each.value))[0]}"
   policy      = file("${path.module}/${each.value}")
+  tags        = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "managed_policy" {
